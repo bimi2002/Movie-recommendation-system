@@ -6,7 +6,7 @@ engine = create_engine("postgresql://postgres:bbb1234556@localhost/Movies")
 
 def get_recommendations(genres, start, end):
     # If multiple genres are selected, filter using multiple LIKE conditions
-    genre_conditions = " OR ".join(["m.genres ILIKE %s"] * len(genres))  
+    genre_conditions = " AND ".join(["m.genres LIKE %s"] * len(genres))  
     query = f"""
     SELECT m.title, m.genres, AVG(r.rating) AS avg_rating
     FROM movies m
