@@ -4,12 +4,14 @@ import pandas as pd
 # Create the engine
 engine = create_engine("postgresql://postgres:bbb1234556@localhost/Movies")
 
-def get_recommendations(genre_filter, start, end):
+def get_recommendations(genres, start, end):
+    # If multiple genres are selected, filter using multiple LIKE conditions
+    genre_conditions = " OR ".join(["m.genres ILIKE %s"] * len(genres))  
     query = f"""
     SELECT m.title, m.genres, AVG(r.rating) AS avg_rating
     FROM movies m
     JOIN ratings r ON m.movie_id = r.movie_id
-    WHERE ({' OR '.join(["m.genres LIKE %s"] * len(genre_filter))}) 
+    WHERE ({genre_conditions}) 
       AND m.num_rates >= 50 
       AND m.release_year >= %s 
       AND m.release_year <= %s
@@ -17,7 +19,11 @@ def get_recommendations(genre_filter, start, end):
     ORDER BY avg_rating DESC
     LIMIT 10;
     """
-    return pd.read_sql(query, engine, params=tuple(f"%{g}%" for g in genre_filter) + (start, end))
+    
+    # Convert genres into SQL wildcard format (e.g., "%Action%", "%Comedy%")
+    genre_params = tuple(f"%{genre}%" for genre in genres)
+    
+    return pd.read_sql(query, engine, params=genre_params + (start, end))
 
 
 # Example usage
