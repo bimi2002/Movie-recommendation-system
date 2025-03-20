@@ -2,28 +2,32 @@ import streamlit as st
 import pandas as pd
 from projekti import get_recommendations  # Import backend function
 
-# 🎬 Streamlit UI
 st.title("🎥 Movie Recommendation System")
 
-# List of genres
 genres = [
     'Adventure', 'Children', 'Fantasy', 'Animation', 'Action', 
     'Horror', 'Musical', 'Sci-Fi', 'Romance', 'Thriller', 'Documentary', 'Drama', 
     'War', 'Comedy', 'Crime', 'IMAX', 'Mystery', 'Western', 'Film-Noir'
 ]
 
-# Genre selection using buttons
-st.subheader("Select a Genre:")
-selected_genre = st.radio("Genres", genres, horizontal=True, index=5)  # Default to 'Action'
+# Multi-genre selection
+st.subheader("Select Genres:")
+selected_genres = st.multiselect("Genres", genres, default=["Action"])
 
 # Year range selection
 start_year, end_year = st.slider("Select Year Range:", 1900, 2025, (2000, 2015))
 
+# Convert selected genres into a SQL-friendly format
+if selected_genres:
+    genre_filter = " | ".join(selected_genres)  # Matches movies with ANY of the selected genres
+else:
+    genre_filter = "%"  # Show all if none selected
+
 # Fetch & Display Recommendations
 if st.button("Get Recommendations"):
-    recommendations = get_recommendations(selected_genre, start_year, end_year)
+    recommendations = get_recommendations(genre_filter, start_year, end_year)
     if recommendations.empty:
-        st.warning("No movies found. Try another genre or adjust the year range.")
+        st.warning("No movies found. Try different genres or adjust the year range.")
     else:
-        st.write(f"### 📌 Top {selected_genre} Movies:")
+        st.write(f"### 📌 Top Movies for {', '.join(selected_genres)}:")
         st.dataframe(recommendations)
