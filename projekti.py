@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine
 import pandas as pd
 
-# Create the engine
 engine = create_engine("postgresql://postgres:bbb1234556@localhost/Movies")
 
 def get_recommendations(genres, start, end):
@@ -24,9 +23,3 @@ def get_recommendations(genres, start, end):
     genre_params = tuple(f"%{genre}%" for genre in genres)
     
     return pd.read_sql(query, engine, params=genre_params + (start, end))
-
-
-# Example usage
-genre = "Drama"
-df = get_recommendations(genre,1000,1990)
-print(df)

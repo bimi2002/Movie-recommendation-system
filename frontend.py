@@ -29,7 +29,6 @@ def set_background(image_path):
         unsafe_allow_html=True
     )
 
-# Set background image (change 'background.jpg' to your actual file path)
 set_background("background3.png")  
 
 
@@ -41,11 +40,9 @@ genres = [
     'War', 'Comedy', 'Crime', 'IMAX', 'Mystery', 'Western', 'Film-Noir'
 ]
 
-# Multi-genre selection
 st.subheader("Select Genres:")
 selected_genres = st.multiselect("Genres", genres, default=["Action"])
 
-# Year range selection
 start_year, end_year = st.slider("Select Year Range:", 1900, 2025, (2000, 2015))
 
 if st.button("Get Recommendations"):
