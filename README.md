@@ -13,3 +13,18 @@ A simple **movie recommendation system** using **PostgreSQL, Python, and Streaml
 - **SQLAlchemy** (Database connection)  
 - **Pandas** (Data processing)  
 - **Streamlit** (Web UI)  
+
+## 📖 Data Base Construction
+- **movie table** contains:
+- movie_id
+- rating
+- title
+- genres
+- num_rates 
+- release_year
+- **ratings table** contains:
+- rating_id
+- user_id
+- movie_id
+- rating
+- date 
