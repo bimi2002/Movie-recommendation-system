@@ -30,7 +30,7 @@ def set_background(image_path):
     )
 
 # Set background image (change 'background.jpg' to your actual file path)
-set_background("background.jpg")  
+set_background("background3.png")  
 
 
 st.title("🎥 Movie Recommendation System")
