@@ -30,4 +30,4 @@ A simple **movie recommendation system** using **PostgreSQL, Python, and Streaml
 - date 
 
 ## The Link to the dataset
-[text](https://grouplens.org/datasets/movielens/latest/)
+[movies data](https://grouplens.org/datasets/movielens/latest/)
