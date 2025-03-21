@@ -1,6 +1,37 @@
 import streamlit as st
 import pandas as pd
 from projekti import get_recommendations  # Import backend function
+import base64
+
+def set_background(image_path):
+    with open(image_path, "rb") as image_file:
+        encoded_image = base64.b64encode(image_file.read()).decode()
+    
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background: url(data:image/png;base64,{encoded_image}) no-repeat center center fixed;
+            background-size: cover;
+        }}
+        .overlay {{
+            background: rgba(0, 0, 0, 0.6); /* Dark overlay for readability */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }}
+        </style>
+        <div class="overlay"></div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# Set background image (change 'background.jpg' to your actual file path)
+set_background("background.jpg")  
+
 
 st.title("🎥 Movie Recommendation System")
 
